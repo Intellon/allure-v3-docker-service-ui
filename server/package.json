@@ -1,0 +1,8 @@
+{
+  "name": "allure-docker-service-ui-server",
+  "version": "3.4.0",
+  "private": true,
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

@@ -1,0 +1,7 @@
+/projects
+/allure-results
+/allure-reports
+/.idea/
+/docs/superpowers/
+server/node_modules/
+server/package-lock.json
