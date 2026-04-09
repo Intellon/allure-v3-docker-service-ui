@@ -33,13 +33,18 @@ const styles = (theme) => ({
     paddingBottom: theme.spacing(4),
   },
   paper: {
-    padding: theme.spacing(2, 3, 0, 3),
+    padding: theme.spacing(3),
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
+    borderRadius: 16,
+    boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
   },
   cardMedia: {
-    height: 1000,
+    height: "calc(100vh - 320px)",
+    minHeight: 500,
+    borderRadius: 12,
+    border: `1px solid ${theme.palette.divider}`,
   },
   rootButtonGroup: {
     display: "flex",

@@ -8,12 +8,13 @@ import AllureDockerMobileMenu from "../../components/AllureDockerMobileMenu/Allu
 import AllureDockerToolbar from "../../components/AllureDockerToolbar/AllureDockerToolbar";
 import AllureDockerProjectsSideDrawer from "../../components/AllureDockerProjectsSideDrawer/AllureDockerProjectsSideDrawer";
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 const styles = (theme) => ({
   root: {
     display: "flex",
   },
   appBar: {
+    zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -27,9 +28,17 @@ const styles = (theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    paddingTop: theme.spacing(10),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

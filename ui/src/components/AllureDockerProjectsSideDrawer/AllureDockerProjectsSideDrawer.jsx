@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { withRouter } from "../../utility/withRouter";
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 const styles = (theme) => ({
   drawer: {
     width: drawerWidth,
@@ -23,6 +23,8 @@ const styles = (theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    borderRight: "none",
+    boxShadow: "2px 0 8px rgba(0,0,0,0.08)",
   },
   drawerHeader: {
     display: "flex",
@@ -35,6 +37,14 @@ const styles = (theme) => ({
     display: "block",
     [theme.breakpoints.up("sm")]: {
       display: "none",
+    },
+  },
+  listItem: {
+    borderRadius: 8,
+    margin: theme.spacing(0.5, 1),
+    width: "auto",
+    "&:hover": {
+      backgroundColor: theme.palette.action.hover,
     },
   },
 });
@@ -50,7 +60,7 @@ const allureDockerProjectsSideDrawer = (props) => {
         key={key}
         style={{ color: "inherit", textDecoration: "inherit" }}
       >
-        <ListItem button id={key} onClick={() => props.selectProject(key)}>
+        <ListItem button id={key} onClick={() => props.selectProject(key)} className={classes.listItem}>
           <ListItemText primary={key} />
         </ListItem>
       </Link>
