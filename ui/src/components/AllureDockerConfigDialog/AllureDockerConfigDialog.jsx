@@ -31,7 +31,7 @@ class AllureDockerConfigDialog extends Component {
   getConfig = () => {
     const axios = localAxios.create();
     axios
-      .get(`${process.env.PUBLIC_URL}/config.json`)
+      .get("/config.json")
       .then((response) => {
         this.setState({ config: response.data });
       })
