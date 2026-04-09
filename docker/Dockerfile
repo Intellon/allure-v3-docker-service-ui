@@ -13,7 +13,7 @@ ARG VERSION
 ARG VCS_REF
 LABEL org.label-schema.build-date=${BUILD_DATE} \
     org.label-schema.docker.dockerfile="docker/Dockerfile" \
-    org.label-schema.license="MIT" \
+    org.label-schema.license="Apache-2.0" \
     org.label-schema.name="Allure Docker Service UI" \
     org.label-schema.version=${VERSION} \
     org.label-schema.description="UI Layer for Allure Docker Service container" \
