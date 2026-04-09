@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/Intellon/allure-v3-docker-service-ui/actions/workflows/docker-publish.yml/badge.svg?branch=main)](https://github.com/Intellon/allure-v3-docker-service-ui/actions?query=branch%3Amain)
 
-UI for the [Allure Docker Service](https://github.com/fescobar/allure-docker-service) API. Built with React 18, MUI 5, Vite 6.
+UI for the [Allure Docker Service](https://github.com/Intellon/allure-v3-docker-service) API. Built with React 18, MUI 5, Vite 6.
 
 **Image:** `ghcr.io/intellon/allure-docker-service-ui`
 
@@ -102,12 +102,12 @@ The pipeline runs automatically on version tags and can be triggered manually. I
 
 **Automatic** — push a version tag:
 ```sh
-git tag v3.4.0
-git push origin v3.4.0
+git tag v3.3.1
+git push origin v3.3.1
 ```
 
 **Manual** — trigger via GitHub UI:
-Go to **Actions > Allure Docker Service UI Workflow > Run workflow**, enter the version (e.g. `3.4.0`) and choose whether to tag as `latest`.
+Go to **Actions > Allure Docker Service UI Workflow > Run workflow**, enter the version (e.g. `3.3.1`) and choose whether to tag as `latest`.
 
 **Prerequisite:** Enable **Settings > Actions > General > Workflow permissions > Read and write permissions** in your GitHub repository.
 
@@ -118,14 +118,14 @@ Go to **Actions > Allure Docker Service UI Workflow > Run workflow**, enter the 
 echo $GITHUB_TOKEN | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
 
 # 2. Build
-docker build -t ghcr.io/intellon/allure-docker-service-ui:3.4.0 \
+docker build -t ghcr.io/intellon/allure-docker-service-ui:3.3.1 \
   -f docker/Dockerfile \
   --build-arg VERSION=$(git describe --tags --always) \
   --build-arg VCS_REF=$(git rev-parse --short HEAD) \
   --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') .
 
 # 3. Push
-docker push ghcr.io/intellon/allure-docker-service-ui:3.4.0
+docker push ghcr.io/intellon/allure-docker-service-ui:3.3.1
 ```
 
 **GitHub Token:** Settings > Developer Settings > Personal Access Tokens (classic) with scopes `write:packages`, `read:packages`.

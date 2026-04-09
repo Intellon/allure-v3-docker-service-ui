@@ -10,7 +10,6 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import HomeIcon from "@mui/icons-material/Home";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
-import LanguageIcon from "@mui/icons-material/Language";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
@@ -27,7 +26,6 @@ import SwaggerLogo from "../../components/SwaggerLogo/SwaggerLogo";
 import AllureDockerNewProjectDialog from "../AllureDockerNewProjectDialog/AllureDockerNewProjectDialog";
 import AllureDockerConfigDialog from "../AllureDockerConfigDialog/AllureDockerConfigDialog";
 import AllureDockerInfoDialog from "../AllureDockerInfoDialog/AllureDockerInfoDialog";
-import AllureDockerLanguagesMenu from "../AllureDockerLanguagesMenu/AllureDockerLanguagesMenu";
 import AllureDockerSignOutDialog from "../AllureDockerSignOutDialog/AllureDockerSignOutDialog";
 import { redirect, redirectRoot } from "../../utility/navigate";
 import axios from "../../api/axios-allure-docker";
@@ -90,7 +88,6 @@ class AllureDockerToolbar extends Component {
     configDialog: false,
     signOutDialog: false,
     infoDialog: false,
-    languagesAnchorEl: null,
     searchResults: [],
   };
 
@@ -124,14 +121,6 @@ class AllureDockerToolbar extends Component {
 
   closeInfoDialog = () => {
     this.setState({ infoDialog: false });
-  };
-
-  closeLanguagesMenu = () => {
-    this.setState({ languagesAnchorEl: null });
-  };
-
-  openLanguagesMenu = (event) => {
-    this.setState({ languagesAnchorEl: event.currentTarget });
   };
 
   goToSwagger = () => {
@@ -275,12 +264,6 @@ class AllureDockerToolbar extends Component {
             />
           </IconButton>
 
-          <IconButton color="inherit" onClick={this.openLanguagesMenu}>
-            <LanguageIcon />
-          </IconButton>
-
-          <Divider orientation="vertical" flexItem />
-
           <IconButton color="inherit" onClick={this.openInfoDialog}>
             <InfoIcon />
           </IconButton>
@@ -319,11 +302,6 @@ class AllureDockerToolbar extends Component {
           <AllureDockerInfoDialog
             open={this.state.infoDialog}
             handleCloseDialog={this.closeInfoDialog}
-          />
-          <AllureDockerLanguagesMenu
-            setAPIAlert={this.props.setAPIAlert}
-            closeLanguagesMenu={this.closeLanguagesMenu}
-            anchorEl={this.state.languagesAnchorEl}
           />
         </div>
       </Toolbar>

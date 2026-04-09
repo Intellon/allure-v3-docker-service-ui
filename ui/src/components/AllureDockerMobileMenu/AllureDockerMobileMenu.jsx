@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
-import LanguageIcon from "@mui/icons-material/Language";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Switch from "@mui/material/Switch";
@@ -10,12 +9,10 @@ import { withRouter } from "../../utility/withRouter";
 
 import SwaggerLogo from "../../components/SwaggerLogo/SwaggerLogo";
 import AllureDockerInfoDialog from "../../components/AllureDockerInfoDialog/AllureDockerInfoDialog";
-import AllureDockerLanguagesMenu from "../../components/AllureDockerLanguagesMenu/AllureDockerLanguagesMenu";
 
 class AllureDockerMobileMenu extends Component {
   state = {
     infoDialog: false,
-    languagesAnchorEl: null,
   };
 
   openInfoDialog = () => {
@@ -24,14 +21,6 @@ class AllureDockerMobileMenu extends Component {
 
   closeInfoDialog = () => {
     this.setState({ infoDialog: false });
-  };
-
-  closeLanguagesMenu = () => {
-    this.setState({ languagesAnchorEl: null });
-  };
-
-  openLanguagesMenu = (event) => {
-    this.setState({ languagesAnchorEl: event.currentTarget });
   };
 
   goToSwagger = () => {
@@ -57,12 +46,6 @@ class AllureDockerMobileMenu extends Component {
             />
             <p>Dark Mode</p>
           </MenuItem>
-          <MenuItem onClick={this.openLanguagesMenu}>
-            <IconButton color="inherit">
-              <LanguageIcon />
-            </IconButton>
-            <p>Language</p>
-          </MenuItem>
           <MenuItem onClick={this.openInfoDialog}>
             <IconButton color="inherit">
               <InfoIcon />
@@ -79,10 +62,6 @@ class AllureDockerMobileMenu extends Component {
         <AllureDockerInfoDialog
           open={this.state.infoDialog}
           handleCloseDialog={this.closeInfoDialog}
-        />
-        <AllureDockerLanguagesMenu
-          closeLanguagesMenu={this.closeLanguagesMenu}
-          anchorEl={this.state.languagesAnchorEl}
         />
       </React.Fragment>
     );
