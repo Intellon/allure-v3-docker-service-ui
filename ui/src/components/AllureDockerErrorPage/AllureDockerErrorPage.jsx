@@ -43,7 +43,7 @@ class AllureDockerErrorPage extends Component {
               </Link>
             </Typography>
             <Typography variant="h5" gutterBottom>
-              Or pull the latest "frankescobar/allure-docker-service" API image (remove your current latest version)
+              Or pull the latest "ghcr.io/intellon/allure-docker-service" API image (remove your current latest version)
             </Typography>
           </React.Fragment>
         );
