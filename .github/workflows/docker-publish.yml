@@ -13,6 +13,10 @@ on:
         description: "Also tag as latest?"
         type: boolean
         default: true
+      create_release:
+        description: "Create GitHub Release?"
+        type: boolean
+        default: true
 
 env:
   REGISTRY: ghcr.io
@@ -22,7 +26,7 @@ jobs:
   build-release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
@@ -35,12 +39,14 @@ jobs:
           DOCKER_PLATFORMS=linux/amd64,linux/arm64,linux/arm/v7
           VERSION=na
           PUSH=false
+          CREATE_RELEASE=false
           TAGS="--tag ${REGISTRY}/${IMAGE_NAME}:na"
 
           # Manual dispatch
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             VERSION="${{ github.event.inputs.version }}"
             PUSH=true
+            CREATE_RELEASE="${{ github.event.inputs.create_release }}"
             if [[ "${{ github.event.inputs.latest }}" == "true" ]]; then
               TAGS="--tag ${REGISTRY}/${IMAGE_NAME}:${VERSION} --tag ${REGISTRY}/${IMAGE_NAME}:latest"
             else
@@ -52,6 +58,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
             PUSH=true
+            CREATE_RELEASE=true
             if [[ $GITHUB_REF == *"beta"* ]]; then
               TAGS="--tag ${REGISTRY}/${IMAGE_NAME}:${VERSION} --tag ${REGISTRY}/${IMAGE_NAME}:beta"
             else
@@ -61,6 +68,7 @@ jobs:
 
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "push=${PUSH}" >> $GITHUB_OUTPUT
+          echo "create_release=${CREATE_RELEASE}" >> $GITHUB_OUTPUT
           echo "buildx_args=--platform ${DOCKER_PLATFORMS} \
             --build-arg VERSION=${VERSION} \
             --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
@@ -94,3 +102,20 @@ jobs:
         if: always() && steps.prepare.outputs.push == 'true'
         run: |
           docker buildx imagetools inspect ${REGISTRY}/${IMAGE_NAME}:${{ steps.prepare.outputs.version }}
+
+      - name: Create GitHub Release
+        if: success() && steps.prepare.outputs.create_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.prepare.outputs.version }}
+          name: v${{ steps.prepare.outputs.version }}
+          body: |
+            ## Docker Image
+            ```sh
+            docker pull ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.prepare.outputs.version }}
+            ```
+
+            **Platforms:** linux/amd64, linux/arm64, linux/arm/v7
+          draft: false
+          prerelease: ${{ contains(steps.prepare.outputs.version, 'beta') }}
+          generate_release_notes: true
