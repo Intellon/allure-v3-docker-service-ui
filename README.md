@@ -100,7 +100,7 @@ docker rm -f $(docker ps -q --filter ancestor=allure-docker-service-ui)
 ## Build & Push to GHCR
 
 ### CI/CD
-The pipeline runs on pushes to `main` and on version tags. It builds multi-arch (amd64, arm64, arm/v7) and pushes to `ghcr.io/intellon/allure-docker-service-ui`.
+The pipeline runs automatically on version tags and can be triggered manually. It builds multi-arch (amd64, arm64, arm/v7) and pushes to `ghcr.io/intellon/allure-docker-service-ui`.
 
 **Automatic** — push a version tag:
 ```sh

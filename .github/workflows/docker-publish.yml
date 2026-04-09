@@ -2,8 +2,6 @@ name: Allure Docker Service UI Workflow
 
 on:
   push:
-    branches:
-      - main
     tags:
       - v*
   workflow_dispatch:
