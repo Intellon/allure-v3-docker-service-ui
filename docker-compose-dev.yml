@@ -8,7 +8,7 @@ services:
         VERSION: "na"
         VCS_REF: "na"
     environment:
-      ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:5050"
+      ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:7272"
       ALLURE_DOCKER_PUBLIC_API_URL_PREFIX: ""
       #URL_PREFIX: "/my-prefix"
     ports:
@@ -30,6 +30,6 @@ services:
       #ACCESS_TOKEN_EXPIRES_IN_SECONDS: 10
       #REFRESH_TOKEN_EXPIRES_IN_SECONDS: 10
     ports:
-      - "5050:5050"
+      - "7272:5050"
     volumes:
       - ${PWD}/projects:/app/projects

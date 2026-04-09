@@ -25,7 +25,7 @@ services:
   allure-ui:
     image: "ghcr.io/intellon/allure-docker-service-ui"
     environment:
-      ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:5050"
+      ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:7272"
     ports:
       - "5252:5252"
 ```
@@ -54,7 +54,7 @@ Open http://localhost:5252/allure-docker-service-ui
 ```sh
 docker compose -f docker-compose-dev.yml up -d --build
 ```
-- **Allure Backend:** http://localhost:5050
+- **Allure Backend:** http://localhost:7272
 - **Allure UI:** http://localhost:7474/allure-docker-service-ui
 
 ```sh
@@ -83,7 +83,7 @@ Build and run only locally (without pushing to any registry):
 docker build -t allure-docker-service-ui -f docker/Dockerfile .
 
 # Run
-docker run -d -p 5252:5252 -e ALLURE_DOCKER_PUBLIC_API_URL=http://localhost:5050 allure-docker-service-ui
+docker run -d -p 5252:5252 -e ALLURE_DOCKER_PUBLIC_API_URL=http://localhost:7272 allure-docker-service-ui
 
 # Test
 curl http://localhost:5252/allure-docker-service-ui/version
