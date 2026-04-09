@@ -25,6 +25,8 @@ const styles = (theme) => ({
     width: drawerWidth,
     borderRight: "none",
     boxShadow: "2px 0 8px rgba(0,0,0,0.08)",
+    top: 64,
+    height: "calc(100% - 64px)",
   },
   drawerHeader: {
     display: "flex",

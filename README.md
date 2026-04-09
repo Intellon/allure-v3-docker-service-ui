@@ -1,6 +1,6 @@
 # Allure Docker Service UI
 
-[![Build](https://github.com/Intellon/allure-v3-docker-service-ui/actions/workflows/docker-publish.yml/badge.svg?branch=develop)](https://github.com/Intellon/allure-v3-docker-service-ui/actions?query=branch%3Adevelop)
+[![Build](https://github.com/Intellon/allure-v3-docker-service-ui/actions/workflows/docker-publish.yml/badge.svg?branch=main)](https://github.com/Intellon/allure-v3-docker-service-ui/actions?query=branch%3Amain)
 
 UI for the [Allure Docker Service](https://github.com/fescobar/allure-docker-service) API. Built with React 18, MUI 5, Vite 6.
 

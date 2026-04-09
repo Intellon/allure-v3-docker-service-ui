@@ -43,7 +43,6 @@ const styles = (theme) => ({
     },
   },
   search: {
-    position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     "&:hover": {
@@ -57,20 +56,9 @@ const styles = (theme) => ({
       width: "auto",
     },
   },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   searchTextField: {
     color: "inherit",
-    padding: theme.spacing(0.5),
-    paddingLeft: `calc(1em + ${theme.spacing(5)}px)`,
-    transition: theme.transitions.create("width"),
+    padding: theme.spacing(0.5, 1),
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "40ch",
@@ -233,9 +221,6 @@ class AllureDockerToolbar extends Component {
         </Typography>
 
         <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
           <Autocomplete
             className={classes.searchTextField}
             options={this.state.searchResults}
@@ -248,7 +233,16 @@ class AllureDockerToolbar extends Component {
                 placeholder="Project ID..."
                 margin="none"
                 variant="standard"
-                InputProps={{ ...params.InputProps, disableUnderline: true }}
+                InputProps={{
+                  ...params.InputProps,
+                  disableUnderline: true,
+                  startAdornment: (
+                    <React.Fragment>
+                      <SearchIcon style={{ marginRight: 8, opacity: 0.7 }} />
+                      {params.InputProps.startAdornment}
+                    </React.Fragment>
+                  ),
+                }}
               />
             )}
           />
