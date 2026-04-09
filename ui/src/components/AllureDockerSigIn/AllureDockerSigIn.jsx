@@ -27,12 +27,11 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       <Link
         color="inherit"
-        href="https://github.com/fescobar/allure-docker-service-ui"
+        href="https://github.com/Intellon/allure-v3-docker-service-ui"
       >
         Allure Docker Service UI
       </Link>{" "}
       {new Date().getFullYear()}
-      {" (The best year ever)"}
     </Typography>
   );
 }

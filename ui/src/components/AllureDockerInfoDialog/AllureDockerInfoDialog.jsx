@@ -103,11 +103,11 @@ class AllureDockerInfoDialog extends Component {
             >
               <Link
                 color="inherit"
-                href="https://github.com/fescobar/allure-docker-service-ui"
+                href="https://github.com/Intellon/allure-v3-docker-service-ui"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                https://github.com/fescobar/allure-docker-service-ui
+                https://github.com/Intellon/allure-v3-docker-service-ui
               </Link>
             </Typography>
           </DialogContentText>
@@ -127,11 +127,11 @@ class AllureDockerInfoDialog extends Component {
             >
               <Link
                 color="inherit"
-                href="https://github.com/fescobar/allure-docker-service"
+                href="https://github.com/Intellon/allure-docker-service"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                https://github.com/fescobar/allure-docker-service
+                https://github.com/Intellon/allure-docker-service
               </Link>
             </Typography>
           </DialogContentText>
@@ -151,11 +151,11 @@ class AllureDockerInfoDialog extends Component {
             >
               <Link
                 color="inherit"
-                href="https://github.com/fescobar/allure-docker-service-examples"
+                href="https://github.com/Intellon/allure-docker-service-examples"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                https://github.com/fescobar/allure-docker-service-examples
+                https://github.com/Intellon/allure-docker-service-examples
               </Link>
             </Typography>
           </DialogContentText>
@@ -169,7 +169,7 @@ class AllureDockerInfoDialog extends Component {
               color="textSecondary"
               align="left"
             >
-              {"Frank Escobar"}
+              {"Intellon"}
             </Typography>
             <Typography
               variant="subtitle2"
@@ -178,11 +178,11 @@ class AllureDockerInfoDialog extends Component {
             >
               <Link
                 color="inherit"
-                href="https://www.linkedin.com/in/fescobarsystems/"
+                href="https://github.com/Intellon"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                LinkedIn
+                GitHub
               </Link>
             </Typography>
           </DialogContentText>
