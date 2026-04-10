@@ -20,12 +20,12 @@ services:
       CHECK_RESULTS_EVERY_SECONDS: NONE
       KEEP_HISTORY: 1
       KEEP_HISTORY_LATEST: 12
-      SECURITY_USER: my_username
-      SECURITY_PASS: my_password
-      SECURITY_VIEWER_USER: "view_user"
-      SECURITY_VIEWER_PASS: "view_pass"
-      SECURITY_ENABLED: 1
-      MAKE_VIEWER_ENDPOINTS_PUBLIC: 1
+      SECURITY_ENABLED: 0
+      #SECURITY_USER: my_username
+      #SECURITY_PASS: my_password
+      #SECURITY_VIEWER_USER: "view_user"
+      #SECURITY_VIEWER_PASS: "view_pass"
+      #MAKE_VIEWER_ENDPOINTS_PUBLIC: 1
       #URL_PREFIX: /my-prefix
       #ACCESS_TOKEN_EXPIRES_IN_SECONDS: 10
       #REFRESH_TOKEN_EXPIRES_IN_SECONDS: 10

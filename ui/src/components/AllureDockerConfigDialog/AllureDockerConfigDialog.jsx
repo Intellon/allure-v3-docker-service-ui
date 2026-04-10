@@ -86,6 +86,8 @@ class AllureDockerConfigDialog extends Component {
         open={this.props.open}
         onClose={this.handleCloseDialog}
         aria-labelledby="form-dialog-title"
+        fullWidth
+        maxWidth="md"
       >
         <DialogTitle id="form-dialog-title">Configuration</DialogTitle>
         <DialogContent>

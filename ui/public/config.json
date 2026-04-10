@@ -1,0 +1,5 @@
+{
+    "version": "dev",
+    "prefix": "/allure-docker-service-ui",
+    "full_allure_docker_api_url": "http://localhost:7272/allure-docker-service"
+}

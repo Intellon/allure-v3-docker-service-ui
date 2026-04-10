@@ -135,30 +135,6 @@ class AllureDockerInfoDialog extends Component {
               </Link>
             </Typography>
           </DialogContentText>
-          <DialogContentText>
-            <Typography
-              component="span"
-              variant="h6"
-              color="textSecondary"
-              align="left"
-            >
-              Examples
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              color="secondary"
-              align="center"
-            >
-              <Link
-                color="inherit"
-                href="https://github.com/Intellon/allure-v3-docker-service-examples"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                https://github.com/Intellon/allure-v3-docker-service-examples
-              </Link>
-            </Typography>
-          </DialogContentText>
         </DialogContent>
         <DialogTitle id="form-dialog-title">AUTHOR</DialogTitle>
         <DialogContent>
