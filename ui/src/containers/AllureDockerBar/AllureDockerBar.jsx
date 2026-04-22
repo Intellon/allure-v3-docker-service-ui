@@ -28,17 +28,11 @@ const styles = (theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
-  },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
-    paddingTop: theme.spacing(10),
+    padding: theme.spacing(2),
+    paddingTop: `calc(${theme.mixins.toolbar.minHeight}px + ${theme.spacing(1)})`,
+    paddingBottom: theme.spacing(1),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -125,8 +119,6 @@ class AllureDockerBar extends Component {
             [classes.contentShift]: this.state.openSideDrawer,
           })}
         >
-          <div className={classes.drawerHeader} />
-
           {this.props.children}
         </main>
       </div>

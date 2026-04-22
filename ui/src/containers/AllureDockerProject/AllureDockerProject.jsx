@@ -1,19 +1,36 @@
 import React, { Component } from "react";
 
 import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CircularProgress from "@mui/material/CircularProgress";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import FileCopyRounded from "@mui/icons-material/FileCopyRounded";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Paper from "@mui/material/Paper";
-import Refresh from "@mui/icons-material/Refresh";
+import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+
+import Archive from "@mui/icons-material/Archive";
+import CleaningServices from "@mui/icons-material/CleaningServices";
+import CloudUpload from "@mui/icons-material/CloudUpload";
+import DeleteForever from "@mui/icons-material/DeleteForever";
+import DeleteSweep from "@mui/icons-material/DeleteSweep";
+import Download from "@mui/icons-material/Download";
+import Email from "@mui/icons-material/Email";
+import FileCopyRounded from "@mui/icons-material/FileCopyRounded";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import MoreVert from "@mui/icons-material/MoreVert";
+import PlayArrow from "@mui/icons-material/PlayArrow";
+import Refresh from "@mui/icons-material/Refresh";
+
 import { withRouter } from "../../utility/withRouter";
 import { withStyles } from "@mui/styles";
 
@@ -28,31 +45,27 @@ import { redirect, redirectRootInSeconds } from "../../utility/navigate";
 import { isAdmin } from "../../utility/user-actions";
 
 const styles = (theme) => ({
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
   paper: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     display: "flex",
-    overflow: "auto",
     flexDirection: "column",
+    gap: theme.spacing(1.5),
     borderRadius: 16,
     boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+    height: "calc(100vh - 112px)",
+    minHeight: 480,
   },
-  cardMedia: {
-    height: "calc(100vh - 320px)",
-    minHeight: 500,
+  iframeCard: {
+    flex: 1,
+    minHeight: 0,
     borderRadius: 12,
     border: `1px solid ${theme.palette.divider}`,
+    overflow: "hidden",
   },
-  rootButtonGroup: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    "& > *": {
-      margin: theme.spacing(1),
-    },
+  iframeMedia: {
+    width: "100%",
+    height: "100%",
+    border: 0,
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -80,6 +93,7 @@ class AllureDockerProject extends Component {
       openCleanHistoryDialog: false,
       openSendResultsDialog: false,
       openCopyToolTip: false,
+      overflowAnchorEl: null,
     };
   }
 
@@ -194,7 +208,7 @@ class AllureDockerProject extends Component {
   };
 
   copyReportUrl = (reportUrlSelected) => {
-    if(reportUrlSelected) {
+    if (reportUrlSelected) {
       navigator.clipboard.writeText(reportUrlSelected);
       this.openCopyToolTip();
     }
@@ -223,66 +237,40 @@ class AllureDockerProject extends Component {
   };
 
   openDeleteProjectDialog = () => {
-    this.setState({ openDeleteProjectDialog: true });
+    this.setState({ openDeleteProjectDialog: true, overflowAnchorEl: null });
   };
+  closeDeleteProjectDialog = () => this.setState({ openDeleteProjectDialog: false });
 
-  closeDeleteProjectDialog = () => {
-    this.setState({ openDeleteProjectDialog: false });
-  };
+  openGenerateReportDialog = () => this.setState({ openGenerateReportDialog: true });
+  closeGenerateReportDialog = () => this.setState({ openGenerateReportDialog: false });
 
-  openGenerateReportDialog = () => {
-    this.setState({ openGenerateReportDialog: true });
-  };
+  openCleanResultsDialog = () => this.setState({ openCleanResultsDialog: true, overflowAnchorEl: null });
+  closeCleanResultsDialog = () => this.setState({ openCleanResultsDialog: false });
 
-  closeGenerateReportDialog = () => {
-    this.setState({ openGenerateReportDialog: false });
-  };
+  openCleanHistoryDialog = () => this.setState({ openCleanHistoryDialog: true, overflowAnchorEl: null });
+  closeCleanHistoryDialog = () => this.setState({ openCleanHistoryDialog: false });
 
-  openCleanResultsDialog = () => {
-    this.setState({ openCleanResultsDialog: true });
-  };
+  openSendResultsDialog = () => this.setState({ openSendResultsDialog: true });
+  closeSendResultsDialog = () => this.setState({ openSendResultsDialog: false });
 
-  closeCleanResultsDialog = () => {
-    this.setState({ openCleanResultsDialog: false });
-  };
+  openCopyToolTip = () => this.setState({ openCopyToolTip: true });
+  closeCopyToolTip = () => this.setState({ openCopyToolTip: false });
 
-  openCleanHistoryDialog = () => {
-    this.setState({ openCleanHistoryDialog: true });
-  };
-
-  closeCleanHistoryDialog = () => {
-    this.setState({ openCleanHistoryDialog: false });
-  };
-
-  openSendResultsDialog = () => {
-    this.setState({ openSendResultsDialog: true });
-  };
-
-  closeSendResultsDialog = () => {
-    this.setState({ openSendResultsDialog: false });
-  };
-
-  openCopyToolTip = () => {
-    this.setState({ openCopyToolTip: true });
-  };
-
-  closeCopyToolTip = () => {
-    this.setState({ openCopyToolTip: false });
-  };
+  openOverflowMenu = (event) => this.setState({ overflowAnchorEl: event.currentTarget });
+  closeOverflowMenu = () => this.setState({ overflowAnchorEl: null });
 
   buildReportIPath = (projectId, reportId) => {
     return `/projects/${projectId}/reports/${reportId}/index.html?redirect=false`;
   };
 
   selectReport = (event, projectId) => {
-    const reportUrlSelected =
-      event.target["options"][event.target["options"].selectedIndex].text;
     const reportSelectedValue = event.target.value;
     const reportPath = this.buildReportIPath(projectId, reportSelectedValue);
+    const reportUrlSelected = `${window.location.href}/reports/${reportSelectedValue}`;
 
     axios
       .get(reportPath)
-      .then((response) => {
+      .then(() => {
         this.setState({
           reportSelectedValue: reportSelectedValue,
           reportSelected: `${window._env_.ALLURE_DOCKER_API_URL}${reportPath}`,
@@ -335,7 +323,7 @@ class AllureDockerProject extends Component {
       }
     }
 
-    let progress = "";
+    let progress = null;
     if (this.state.progress) {
       progress = (
         <Backdrop open={true} className={classes.backdrop}>
@@ -344,204 +332,263 @@ class AllureDockerProject extends Component {
       );
     }
 
-    let buttons = [];
-    if (!this.state.projectNotFound) {
-      buttons.push(
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={this.openDeleteProjectDialog}
-          key="delete"
-          disabled={!isAdmin()}
-        >
-          Delete Project
-        </Button>
-      );
-    }
-
-    if (
+    const isLatestView =
       !reportSelectedValue ||
       reportSelectedValue === "latest" ||
-      reports.length === 0
-    ) {
-      buttons.push(
-        <Button
-          key="send-results"
-          onClick={this.openSendResultsDialog}
-          disabled={!isAdmin()}
-        >
-          Send Results
-        </Button>
-      );
-      buttons.push(
-        <Button
-          key="generate-report"
-          onClick={this.openGenerateReportDialog}
-          disabled={!isAdmin()}
-        >
-          Generate Report
-        </Button>
-      );
-      buttons.push(
-        <Button
-          key="clean-results"
-          onClick={this.openCleanResultsDialog}
-          disabled={!isAdmin()}
-        >
-          Clean Results
-        </Button>
-      );
-      buttons.push(
-        <Button
-          key="clean-history"
-          onClick={this.openCleanHistoryDialog}
-          disabled={!isAdmin()}
-        >
-          Clean History
-        </Button>
-      );
-      buttons.push(
-        <Button
-          key="get-emailable-report"
-          onClick={() => this.goToEmailableReport(projectId)}
-        >
-          Get Emailable Report
-        </Button>
-      );
-      buttons.push(
-        <Button
-          key="export-emailable-report"
-          onClick={() => this.exportEmailableReport(projectId)}
-        >
-          Export Emailable Report
-        </Button>
-      );
-      buttons.push(
-        <Button
-          key="export-full-report"
-          onClick={() => this.exportFullReport(projectId)}
-        >
-          Export Full Report
-        </Button>
-      );
-    }
-
-    const buttonsGroup = (
-      <ButtonGroup
-        size="large"
-        color="primary"
-        variant="contained"
-        aria-label="outlined primary button group"
-      >
-        {buttons}
-      </ButtonGroup>
-    );
+      reports.length === 0;
+    const admin = isAdmin();
+    const disabled = !admin;
+    const hasProject = !this.state.projectNotFound;
 
     return (
       <React.Fragment>
-        <Grid container spacing={8}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              <Typography variant="h4" align="left">
+        <Paper className={classes.paper}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={1.5}
+            alignItems={{ xs: "stretch", md: "center" }}
+            justifyContent="space-between"
+          >
+            <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap">
+              <Typography variant="h5" sx={{ fontWeight: 600, mr: 1 }}>
                 {projectId}
               </Typography>
-              <div align="center">{progress}</div>
-              <div>
+              {reports.length > 0 && (
                 <AllureDockerReportsDropDown
                   selectReport={(event) => this.selectReport(event, projectId)}
                   reportSelected={reportSelectedValue}
                   reports={reports}
                 />
-                <Button key="refresh" onClick={this.refreshProject}>
-                  <Refresh />
-                </Button>
-
-                <ClickAwayListener onClickAway={this.closeCopyToolTip}>
-                  <Tooltip
-                    PopperProps={{
-                      disablePortal: true,
-                    }}
-                    onClose={this.closeCopyToolTip}
-                    open={this.state.openCopyToolTip}
-                    disableFocusListener
-                    disableHoverListener
-                    disableTouchListener
-                    title="URL copied"
-                    placement="top"
-                  >
-                    <Button
-                      key="file-copy"
-                      onClick={() => this.copyReportUrl(reportUrlSelected)}
-                    >
-                      <FileCopyRounded />
-                    </Button>
-                  </Tooltip>
-                </ClickAwayListener>
-                <Button
-                  key="go-to"
-                  onClick={() => this.goToReport(reportUrlSelected)}
+              )}
+              <Tooltip title="Refresh">
+                <IconButton size="small" onClick={this.refreshProject}>
+                  <Refresh fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <ClickAwayListener onClickAway={this.closeCopyToolTip}>
+                <Tooltip
+                  PopperProps={{ disablePortal: true }}
+                  onClose={this.closeCopyToolTip}
+                  open={this.state.openCopyToolTip}
+                  disableFocusListener
+                  disableHoverListener
+                  disableTouchListener
+                  title="URL copied"
+                  placement="top"
                 >
-                  <FullscreenIcon />
-                </Button>
-              </div>
-              <div>
-                {buttonsGroup}
-                <AllureDockerDeleteProjectDialog
-                  projectId={this.props.match.params.id}
-                  open={this.state.openDeleteProjectDialog}
-                  handleCloseDialog={this.closeDeleteProjectDialog}
-                  setAPIAlert={this.props.setAPIAlert}
-                  getProjects={this.props.getProjects}
-                  showProgress={this.showProgress}
-                />
-                <AllureDockerSendResultsDialog
-                  projectId={this.props.match.params.id}
-                  open={this.state.openSendResultsDialog}
-                  handleCloseDialog={this.closeSendResultsDialog}
-                  setAPIAlert={this.props.setAPIAlert}
-                  getProjects={this.props.getProjects}
-                  refreshProject={this.refreshProject}
-                  showProgress={this.showProgress}
-                />
-                <AllureDockerGenerateReport
-                  projectId={this.props.match.params.id}
-                  open={this.state.openGenerateReportDialog}
-                  handleCloseDialog={this.closeGenerateReportDialog}
-                  setAPIAlert={this.props.setAPIAlert}
-                  getProjects={this.props.getProjects}
-                  refreshProject={this.refreshProject}
-                  showProgress={this.showProgress}
-                />
-                <AllureDockerCleanResultsDialog
-                  projectId={this.props.match.params.id}
-                  open={this.state.openCleanResultsDialog}
-                  handleCloseDialog={this.closeCleanResultsDialog}
-                  setAPIAlert={this.props.setAPIAlert}
-                  getProjects={this.props.getProjects}
-                  refreshProject={this.refreshProject}
-                  showProgress={this.showProgress}
-                />
-                <AllureDockerCleanHistoryDialog
-                  projectId={this.props.match.params.id}
-                  open={this.state.openCleanHistoryDialog}
-                  handleCloseDialog={this.closeCleanHistoryDialog}
-                  setAPIAlert={this.props.setAPIAlert}
-                  getProjects={this.props.getProjects}
-                  refreshProject={this.refreshProject}
-                  showProgress={this.showProgress}
-                />
-                <Card>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    component="iframe"
-                    image={reportIframe}
-                    title="Allure Report"
-                  ></CardMedia>
-                </Card>
-              </div>
-            </Paper>
-          </Grid>
-        </Grid>
+                  <span>
+                    <Tooltip title="Copy report URL">
+                      <IconButton
+                        size="small"
+                        onClick={() => this.copyReportUrl(reportUrlSelected)}
+                        disabled={!reportUrlSelected}
+                      >
+                        <FileCopyRounded fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  </span>
+                </Tooltip>
+              </ClickAwayListener>
+              <Tooltip title="Open report in new tab">
+                <span>
+                  <IconButton
+                    size="small"
+                    onClick={() => this.goToReport(reportUrlSelected)}
+                    disabled={!reportUrlSelected}
+                  >
+                    <FullscreenIcon fontSize="small" />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            </Stack>
+
+            <Stack direction="row" spacing={1} alignItems="center">
+              {isLatestView && (
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    startIcon={<CloudUpload />}
+                    onClick={this.openSendResultsDialog}
+                    disabled={disabled}
+                  >
+                    Send Results
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    startIcon={<PlayArrow />}
+                    onClick={this.openGenerateReportDialog}
+                    disabled={disabled}
+                  >
+                    Generate Report
+                  </Button>
+                </>
+              )}
+              {hasProject && (
+                <Tooltip title="More actions">
+                  <IconButton
+                    size="small"
+                    onClick={this.openOverflowMenu}
+                    aria-haspopup="menu"
+                  >
+                    <MoreVert fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Menu
+                anchorEl={this.state.overflowAnchorEl}
+                open={Boolean(this.state.overflowAnchorEl)}
+                onClose={this.closeOverflowMenu}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+              >
+                {isLatestView && [
+                  <MenuItem
+                    key="get-emailable"
+                    onClick={() => {
+                      this.closeOverflowMenu();
+                      this.goToEmailableReport(projectId);
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Email fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Get Emailable Report</ListItemText>
+                  </MenuItem>,
+                  <MenuItem
+                    key="export-emailable"
+                    onClick={() => {
+                      this.closeOverflowMenu();
+                      this.exportEmailableReport(projectId);
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Download fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Export Emailable Report</ListItemText>
+                  </MenuItem>,
+                  <MenuItem
+                    key="export-full"
+                    onClick={() => {
+                      this.closeOverflowMenu();
+                      this.exportFullReport(projectId);
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Archive fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Export Full Report</ListItemText>
+                  </MenuItem>,
+                  <Divider key="divider-destructive" />,
+                  <MenuItem
+                    key="clean-results"
+                    onClick={this.openCleanResultsDialog}
+                    disabled={disabled}
+                  >
+                    <ListItemIcon>
+                      <CleaningServices fontSize="small" color="error" />
+                    </ListItemIcon>
+                    <ListItemText>Clean Results</ListItemText>
+                  </MenuItem>,
+                  <MenuItem
+                    key="clean-history"
+                    onClick={this.openCleanHistoryDialog}
+                    disabled={disabled}
+                  >
+                    <ListItemIcon>
+                      <DeleteSweep fontSize="small" color="error" />
+                    </ListItemIcon>
+                    <ListItemText>Clean History</ListItemText>
+                  </MenuItem>,
+                ]}
+                <MenuItem
+                  onClick={this.openDeleteProjectDialog}
+                  disabled={disabled}
+                  sx={{ color: "error.main" }}
+                >
+                  <ListItemIcon>
+                    <DeleteForever fontSize="small" color="error" />
+                  </ListItemIcon>
+                  <ListItemText>Delete Project</ListItemText>
+                </MenuItem>
+              </Menu>
+            </Stack>
+          </Stack>
+
+          <AllureDockerDeleteProjectDialog
+            projectId={this.props.match.params.id}
+            open={this.state.openDeleteProjectDialog}
+            handleCloseDialog={this.closeDeleteProjectDialog}
+            setAPIAlert={this.props.setAPIAlert}
+            getProjects={this.props.getProjects}
+            showProgress={this.showProgress}
+          />
+          <AllureDockerSendResultsDialog
+            projectId={this.props.match.params.id}
+            open={this.state.openSendResultsDialog}
+            handleCloseDialog={this.closeSendResultsDialog}
+            setAPIAlert={this.props.setAPIAlert}
+            getProjects={this.props.getProjects}
+            refreshProject={this.refreshProject}
+            showProgress={this.showProgress}
+          />
+          <AllureDockerGenerateReport
+            projectId={this.props.match.params.id}
+            open={this.state.openGenerateReportDialog}
+            handleCloseDialog={this.closeGenerateReportDialog}
+            setAPIAlert={this.props.setAPIAlert}
+            getProjects={this.props.getProjects}
+            refreshProject={this.refreshProject}
+            showProgress={this.showProgress}
+          />
+          <AllureDockerCleanResultsDialog
+            projectId={this.props.match.params.id}
+            open={this.state.openCleanResultsDialog}
+            handleCloseDialog={this.closeCleanResultsDialog}
+            setAPIAlert={this.props.setAPIAlert}
+            getProjects={this.props.getProjects}
+            refreshProject={this.refreshProject}
+            showProgress={this.showProgress}
+          />
+          <AllureDockerCleanHistoryDialog
+            projectId={this.props.match.params.id}
+            open={this.state.openCleanHistoryDialog}
+            handleCloseDialog={this.closeCleanHistoryDialog}
+            setAPIAlert={this.props.setAPIAlert}
+            getProjects={this.props.getProjects}
+            refreshProject={this.refreshProject}
+            showProgress={this.showProgress}
+          />
+
+          <Card className={classes.iframeCard}>
+            {reportIframe ? (
+              <CardMedia
+                className={classes.iframeMedia}
+                component="iframe"
+                image={reportIframe}
+                title="Allure Report"
+              />
+            ) : (
+              <Box
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "text.secondary",
+                }}
+              >
+                <Typography variant="body2">
+                  No report available yet.
+                </Typography>
+              </Box>
+            )}
+          </Card>
+        </Paper>
+        {progress}
       </React.Fragment>
     );
   }

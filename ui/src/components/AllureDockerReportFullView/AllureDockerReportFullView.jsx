@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import Backdrop from "@mui/material/Backdrop";
-import { withStyles } from "@mui/styles";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import { withRouter } from "../../utility/withRouter";
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import Switch from "@mui/material/Switch";
-import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Stack from "@mui/material/Stack";
+import Switch from "@mui/material/Switch";
+import Tooltip from "@mui/material/Tooltip";
 import HomeIcon from "@mui/icons-material/Home";
 
+import { withRouter } from "../../utility/withRouter";
 import AllureDockerErrorPage from "../../components/AllureDockerErrorPage/AllureDockerErrorPage";
 import axios from "../../api/axios-allure-docker";
 import { redirect } from "../../utility/navigate";
@@ -41,16 +44,6 @@ const optionsSeconds = [
   { seconds: 86400, text: "24 hours" },
 ];
 
-const styles = (theme) => ({
-  cardMedia: {
-    height: 1000,
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
-});
-
 class AllureDockerReportFullView extends Component {
   intervalID;
   constructor(props) {
@@ -77,7 +70,7 @@ class AllureDockerReportFullView extends Component {
       .get(
         `/projects/${projectId}/reports/${reportId}/index.html?redirect=false`
       )
-      .then((response) => {
+      .then(() => {
         const report = { ...this.state.report };
         report.projectId = projectId;
         report.id = reportId;
@@ -143,80 +136,102 @@ class AllureDockerReportFullView extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-
-    let options = [];
-    for (let option of optionsSeconds) {
-      options.push(
-        <option key={option.seconds} value={option.seconds}>
-          {option.text}
-        </option>
-      );
-    }
-
-    let progress = "";
+    let progress = null;
     if (this.state.progress) {
       progress = (
-        <Backdrop open={true} className={classes.backdrop}>
+        <Backdrop open={true} sx={{ zIndex: (t) => t.zIndex.drawer + 1, color: "#fff" }}>
           <CircularProgress color="inherit" />
         </Backdrop>
       );
     }
 
-    let content = "";
-    if (
+    if (this.state.error) {
+      return <AllureDockerErrorPage error={this.state.error} />;
+    }
+
+    const ready =
       this.state.report &&
       this.state.report.projectId &&
-      this.state.report.id
-    ) {
-      const reportIframe = `${window._env_.ALLURE_DOCKER_API_URL}/projects/${this.state.report.projectId}/reports/${this.state.report.id}/index.html?redirect=false`;
-      content = (
-        <Card>
-          <div align="right">
-            <IconButton color="inherit" onClick={this.goToHome}>
-              <HomeIcon />
-            </IconButton>
+      this.state.report.id;
+    const reportIframe = ready
+      ? `${window._env_.ALLURE_DOCKER_API_URL}/projects/${this.state.report.projectId}/reports/${this.state.report.id}/index.html?redirect=false`
+      : null;
+    const isLatest = ready && this.state.report.id === "latest";
 
-            {this.state.report.id === "latest" ? (
-              <React.Fragment>
-                Auto Refresh
-                <Switch
-                  checked={this.state.reloadEnable}
-                  onChange={this.handleSwitch}
-                />
+    return (
+      <Box
+        sx={{
+          position: "fixed",
+          inset: 0,
+          display: "flex",
+          flexDirection: "column",
+          bgcolor: "background.default",
+        }}
+      >
+        {progress}
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          justifyContent="flex-end"
+          sx={{
+            px: 1,
+            py: 0.5,
+            borderBottom: 1,
+            borderColor: "divider",
+            bgcolor: "background.paper",
+          }}
+        >
+          {isLatest && (
+            <>
+              <FormControlLabel
+                control={
+                  <Switch
+                    size="small"
+                    checked={this.state.reloadEnable}
+                    onChange={this.handleSwitch}
+                  />
+                }
+                label="Auto refresh"
+                sx={{ mr: 0 }}
+              />
+              <FormControl size="small" sx={{ minWidth: 140 }}>
                 <Select
-                  native
                   value={this.state.autoRefreshSeconds}
                   onChange={this.handleAutoRefreshSeconds}
                   disabled={!this.state.reloadEnable}
                 >
-                  {options}
+                  {optionsSeconds.map((option) => (
+                    <MenuItem key={option.seconds} value={option.seconds}>
+                      {option.text}
+                    </MenuItem>
+                  ))}
                 </Select>
-              </React.Fragment>
-            ) : null}
-          </div>
-          <CardMedia
-            className={classes.cardMedia}
+              </FormControl>
+            </>
+          )}
+          <Tooltip title="Home">
+            <IconButton size="small" onClick={this.goToHome}>
+              <HomeIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Stack>
+        {reportIframe && (
+          <Box
             component="iframe"
-            image={reportIframe}
+            src={reportIframe}
             title="Allure Report"
-          ></CardMedia>
-        </Card>
-      );
-    }
-
-    if (this.state.error) {
-      content = <AllureDockerErrorPage error={this.state.error} />;
-    }
-
-    return (
-      <React.Fragment>
-        {progress}
-        {content}
-      </React.Fragment>
+            sx={{
+              flex: 1,
+              width: "100%",
+              border: 0,
+              display: "block",
+            }}
+          />
+        )}
+      </Box>
     );
   }
 }
-export default withStyles(styles, { withTheme: true })(
-  withRouter(AllureDockerReportFullView)
-);
+
+export default withRouter(AllureDockerReportFullView);

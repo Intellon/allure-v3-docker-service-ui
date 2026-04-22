@@ -1,47 +1,28 @@
 import React from "react";
-import { withStyles } from "@mui/styles";
 import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
-const styles = (theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 1000,
-  },
-  chips: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
-  chip: {
-    margin: 2,
-  },
-  noLabel: {
-    marginTop: theme.spacing(3),
-  },
-});
-
-const allureDockerReportsDropDown = (props) => {
-  const { classes } = props;
+const AllureDockerReportsDropDown = ({ reports, reportSelected, selectReport }) => {
   return (
-    <FormControl className={classes.formControl}>
+    <FormControl size="small" sx={{ minWidth: 260, maxWidth: 480 }}>
+      <InputLabel id="report-run-label">Report run</InputLabel>
       <Select
-        native
-        value={props.reportSelected}
-        onChange={props.selectReport}
-        inputProps={{
-          id: "select-multiple-native",
-        }}
+        labelId="report-run-label"
+        id="report-run-select"
+        label="Report run"
+        value={reportSelected || ""}
+        onChange={selectReport}
       >
-        {props.reports.map((report) => (
-          <option key={report.linkValue} value={report.linkValue}>
+        {reports.map((report) => (
+          <MenuItem key={report.linkValue} value={report.linkValue}>
             {report.linkVisibleText}
-          </option>
+          </MenuItem>
         ))}
       </Select>
     </FormControl>
   );
 };
-export default withStyles(styles, { withTheme: true })(
-  allureDockerReportsDropDown
-);
+
+export default AllureDockerReportsDropDown;
