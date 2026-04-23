@@ -23,11 +23,10 @@ import CleaningServices from "@mui/icons-material/CleaningServices";
 import CloudUpload from "@mui/icons-material/CloudUpload";
 import DeleteForever from "@mui/icons-material/DeleteForever";
 import DeleteSweep from "@mui/icons-material/DeleteSweep";
-import Download from "@mui/icons-material/Download";
-import Email from "@mui/icons-material/Email";
 import FileCopyRounded from "@mui/icons-material/FileCopyRounded";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import MoreVert from "@mui/icons-material/MoreVert";
+import OpenInNew from "@mui/icons-material/OpenInNew";
 import PlayArrow from "@mui/icons-material/PlayArrow";
 import Refresh from "@mui/icons-material/Refresh";
 
@@ -138,47 +137,6 @@ class AllureDockerProject extends Component {
         project.reports = [];
         this.setState({ project: project, projectNotFound: projectNotFound });
         redirectRootInSeconds(3);
-      });
-  };
-
-  goToEmailableReport = (projectId) => {
-    if (projectId) {
-      axios
-        .get(`/emailable-report/render?project_id=${projectId}`, {
-          responseType: "blob",
-        })
-        .then((response) => {
-          const url = window.URL.createObjectURL(
-            new Blob([response.data], { type: "text/html" })
-          );
-          window.open(url, "_blank");
-          this.handleAPISuccessAlert("Report successfully rendered");
-        })
-        .catch((error) => {
-          redirect(error);
-          this.handleAPIErrorAlert(error);
-        });
-    }
-  };
-
-  exportEmailableReport = (projectId) => {
-    axios
-      .get(`/emailable-report/export?project_id=${projectId}`, {
-        responseType: "blob",
-      })
-      .then((response) => {
-        const url = window.URL.createObjectURL(
-          new Blob([response.data], { type: "text/html" })
-        );
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `${projectId}-emailable-report-allure-docker-service.html`;
-        link.click();
-        this.handleAPISuccessAlert("Emailable Report successfully exported");
-      })
-      .catch((error) => {
-        redirect(error);
-        this.handleAPIErrorAlert(error);
       });
   };
 
@@ -447,28 +405,17 @@ class AllureDockerProject extends Component {
               >
                 {isLatestView && [
                   <MenuItem
-                    key="get-emailable"
+                    key="open-report"
                     onClick={() => {
                       this.closeOverflowMenu();
-                      this.goToEmailableReport(projectId);
+                      this.goToReport(reportIframe);
                     }}
+                    disabled={!reportIframe}
                   >
                     <ListItemIcon>
-                      <Email fontSize="small" />
+                      <OpenInNew fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText>Get Emailable Report</ListItemText>
-                  </MenuItem>,
-                  <MenuItem
-                    key="export-emailable"
-                    onClick={() => {
-                      this.closeOverflowMenu();
-                      this.exportEmailableReport(projectId);
-                    }}
-                  >
-                    <ListItemIcon>
-                      <Download fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>Export Emailable Report</ListItemText>
+                    <ListItemText>Open Report</ListItemText>
                   </MenuItem>,
                   <MenuItem
                     key="export-full"

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import Assessment from "@mui/icons-material/Assessment";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -19,8 +20,6 @@ import { setRoles } from "../../utility/user-actions";
 import { redirectRoot } from "../../utility/navigate";
 
 import axios from "../../api/axios-allure-docker";
-import allure from "../../assets/images/allure.png";
-import docker from "../../assets/images/docker.png";
 
 function Copyright() {
   return (
@@ -153,8 +152,7 @@ class AllureDockerSignIn extends Component {
           <CssBaseline />
           <div className={classes.paper}>
             <div align="center">
-              <img src={allure} alt="allure" height="100" />
-              <img src={docker} alt="docker" height="100" />
+              <Assessment color="primary" sx={{ fontSize: 96, my: 2 }} />
             </div>
             <Typography component="h1" variant="h5" align="center">
               Allure Docker Service UI

@@ -1,12 +1,10 @@
 import React, { Component } from "react";
+import Assessment from "@mui/icons-material/Assessment";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { withStyles } from "@mui/styles";
-
-import allure from "../../assets/images/allure.png";
-import docker from "../../assets/images/docker.png";
 
 const styles = (theme) => ({
   root: {
@@ -36,8 +34,7 @@ class AllureDockerHomePage extends Component {
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <div style={{ height: "100%" }} align="center">
-                <img src={allure} alt="allure" />
-                <img src={docker} alt="docker" />
+                <Assessment color="primary" sx={{ fontSize: 128, my: 2 }} />
                 <Typography variant="h3" color="textSecondary" align="center">
                   ALLURE DOCKER SERVICE UI
                 </Typography>
